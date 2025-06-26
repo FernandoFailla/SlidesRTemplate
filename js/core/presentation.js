@@ -61,19 +61,22 @@ export async function initPresentation(slideCount) {
     try {
         let allSlidesHTML = '';
         console.log(`[SlideInit] Tentando carregar ${slideCount} slides.`);
+        // To use the tutorial slides (21-25) as the main 5 slides without renaming files,
+        // we'll fetch them directly by adjusting the index.
         for (let i = 1; i <= slideCount; i++) {
+            const slideNum = i + 20; // Load slides 21, 22, 23, 24, 25
             try {
-                const response = await fetch(`slides/slide_${i}.html`);
+                const response = await fetch(`slides/slide_${slideNum}.html`);
                 if (!response.ok) {
-                    console.error(`[SlideLoad] Erro ao carregar slide ${i}: ${response.status}`);
-                    allSlidesHTML += `<div id="slide-${i}" class="slide slide-error-placeholder" style="padding: 20px; text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh;"><h2 style="color: var(--autumn-red); font-size: 1.5em;">Erro ao carregar slide ${i}</h2><p style="color: var(--fuji-white);">Status: ${response.status}. O arquivo slide_${i}.html não pôde ser carregado.</p></div>`;
+                    console.error(`[SlideLoad] Erro ao carregar slide ${slideNum}: ${response.status}`);
+                    allSlidesHTML += `<div id="slide-${i}" class="slide slide-error-placeholder" style="padding: 20px; text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh;"><h2 style="color: var(--autumn-red); font-size: 1.5em;">Erro ao carregar slide ${slideNum}</h2><p style="color: var(--fuji-white);">Status: ${response.status}. O arquivo slide_${slideNum}.html não pôde ser carregado.</p></div>`;
                     continue;
                 }
                 const slideHTML = await response.text();
                 allSlidesHTML += slideHTML;
             } catch (slideError) {
-                console.error(`[SlideLoad] Exceção ao processar slide ${i}:`, slideError);
-                allSlidesHTML += `<div id="slide-${i}" class="slide slide-error-placeholder" style="padding: 20px; text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh;"><h2 style="color: var(--autumn-red); font-size: 1.5em;">Exceção ao carregar slide ${i}</h2><p style="color: var(--fuji-white);">${slideError.message}</p></div>`;
+                console.error(`[SlideLoad] Exceção ao processar slide ${slideNum}:`, slideError);
+                allSlidesHTML += `<div id="slide-${i}" class="slide slide-error-placeholder" style="padding: 20px; text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh;"><h2 style="color: var(--autumn-red); font-size: 1.5em;">Exceção ao carregar slide ${slideNum}</h2><p style="color: var(--fuji-white);">${slideError.message}</p></div>`;
             }
         }
         mainContainer.innerHTML = allSlidesHTML;
