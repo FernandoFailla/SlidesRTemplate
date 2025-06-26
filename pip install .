@@ -1,7 +1,0 @@
-
-This will install the package and make the `preso-creator` command available in your terminal.
-
-## Usage
-
-To create a new presentation, use the `new` command followed by the desired directory name for your project.
-
