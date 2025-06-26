@@ -13,20 +13,21 @@ let mainContainer, prevBtn, nextBtn, slideCounter;
  * @param {number} index - The zero-based index of the slide to show.
  */
 export function showSlide(index) {
-    console.log(`[ShowSlide] Chamada para index: ${index}, ID alvo: slide-${index + 1}`);
-    const targetSlide = document.getElementById(`slide-${index + 1}`);
-    
-    if (!targetSlide) {
-        console.error(`[ShowSlide] Slide com ID 'slide-${index + 1}' não encontrado no DOM.`);
-        slideCounter.textContent = `Erro: Slide ${index + 1} não encontrado!`;
-        if (index >= totalSlides - 1) nextBtn.disabled = true;
+    if (index < 0 || index >= totalSlides) {
+        console.error(`[ShowSlide] Invalid slide index requested: ${index}. Total slides: ${totalSlides}`);
         return;
     }
 
-    slides.forEach((slide) => {
-        if(slide) slide.classList.remove('active');
+    console.log(`[ShowSlide] Chamada para index: ${index}`);
+
+    slides.forEach((slide, i) => {
+        if (i === index) {
+            slide.classList.add('active');
+        } else {
+            slide.classList.remove('active');
+        }
     });
-    targetSlide.classList.add('active');
+
     window.scrollTo(0, 0);
     
     currentSlide = index; // Update current slide index
