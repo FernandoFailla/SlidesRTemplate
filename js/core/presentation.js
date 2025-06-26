@@ -22,8 +22,10 @@ export function showSlide(index) {
 
     slides.forEach((slide, i) => {
         if (i === index) {
+            slide.style.display = 'flex'; // Make the active slide visible. All slides use flexbox.
             slide.classList.add('active');
         } else {
+            slide.style.display = 'none'; // Hide inactive slides.
             slide.classList.remove('active');
         }
     });
