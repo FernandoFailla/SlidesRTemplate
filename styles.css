@@ -1,0 +1,550 @@
+/* Paleta de cores inspirada no tema Kanagawa.nvim (dark) */
+:root {
+    --sumi-ink: #1f1f28; /* Fundo principal */
+    --fuji-white: #dcd7ba; /* Texto principal */
+    --fuji-gray: #727169; /* Comentários, texto secundário */
+    --carp-yellow: #e6b450; /* Destaques em amarelo */
+    --ronin-green: #98bb6c; /* Destaques em verde */
+    --wave-blue: #7e9cd8; /* Destaques em azul */
+    --sakura-pink: #d27e99; /* Destaques em rosa/roxo */
+    --autumn-red: #c34043; /* Vermelho */
+}
+
+html, body {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--sumi-ink);
+    color: var(--fuji-white);
+}
+
+.slide {
+    width: 100%;
+    min-height: 100vh; 
+    display: none; 
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 5rem 2rem; 
+    box-sizing: border-box;
+    opacity: 0;
+    transition: opacity 0.6s ease-in-out;
+}
+
+.slide.active {
+    display: flex; 
+    opacity: 1;
+}
+
+.code-font {
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.font-cinzel {
+     font-family: 'Cinzel', serif;
+}
+
+/* Estilos para blocos de código com highlight.js */
+pre code.hljs {
+    border-radius: 0.375rem; /* 6px */
+    padding: 1rem;
+    font-size: 0.875rem; /* 14px */
+}
+
+.nav-button {
+    position: fixed; 
+    bottom: 2rem;
+    background-color: rgba(126, 156, 216, 0.2);
+    color: var(--wave-blue);
+    border: 1px solid var(--wave-blue);
+    padding: 0.75rem 1.5rem;
+    border-radius: 9999px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    font-weight: 700;
+    z-index: 10;
+}
+.nav-button:hover {
+    background-color: var(--wave-blue);
+    color: var(--sumi-ink);
+}
+.nav-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Estilos para o infográfico SVG */
+.infographic-svg text {
+    font-family: 'JetBrains Mono', monospace;
+    fill: var(--fuji-white);
+}
+.infographic-svg .svg-box {
+    stroke-width: 2;
+    rx: 8;
+}
+.infographic-svg .svg-arrow {
+    stroke-width: 2;
+    fill: none;
+    stroke-dasharray: 500;
+    stroke-dashoffset: 500;
+    animation: draw-arrow 1.5s ease-in-out forwards;
+}
+.infographic-svg .svg-arrow-head {
+    stroke-width: 2;
+    stroke: var(--carp-yellow);
+    fill: var(--carp-yellow);
+}
+
+#slide-5.active .svg-arrow--1 { animation-delay: 0.5s; }
+#slide-5.active .svg-arrow--2 { animation-delay: 1.5s; }
+
+/* === R CONSOLE TOGGLE FAB BUTTON === */
+/* This style is used by the new R console toggle button */
+.r-console-toggle-fab {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%) translateY(-100%) translateY(-1.5rem); /* Posiciona acima dos botões de navegação */
+    background-color: var(--ronin-green);
+    color: var(--sumi-ink);
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    z-index: 1001; /* Acima dos outros elementos */
+    transition: background-color 0.2s ease-in-out;
+}
+
+.r-console-toggle-fab:hover {
+    background-color: #b5d992; /* Um verde mais claro no hover */
+}
+/* === END R CONSOLE TOGGLE FAB BUTTON === */
+
+
+/* --- START: NEW R CONSOLE STYLES --- */
+#new-r-console {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 40vh; /* Altura do console */
+    max-height: 70vh;
+    background-color: #2a2a32; /* Um pouco mais claro que o sumi-ink */
+    border-top: 2px solid var(--ronin-green);
+    box-shadow: 0 -4px 10px rgba(0,0,0,0.3);
+    display: none; /* Começa escondido */
+    flex-direction: column;
+    z-index: 1000;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+#new-r-console.active {
+    display: flex;
+}
+
+#new-r-console .r-console-header {
+    background-color: #33333c;
+    padding: 0.5rem 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--fuji-white);
+    font-weight: bold;
+}
+
+#new-r-console .r-console-header button {
+    background: none;
+    border: none;
+    color: var(--fuji-white);
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+#new-r-console .r-console-output {
+    background: #232336;
+    color: var(--fuji-white);
+    border-radius: 6px;
+    flex-grow: 1;
+    padding: 1rem;
+    /* max-height: calc(40vh - 70px); */ /* Adjusted based on header/input height */
+    overflow-y: auto;
+    font-size: 0.9rem;
+}
+
+#new-r-console .output-line {
+    font-size: 1rem;
+    background: none;
+    color: var(--fuji-white);
+    margin-bottom: 4px; /* Add some spacing between lines */
+}
+
+#new-r-console .output-line pre {
+    color: var(--fuji-white);
+    background: none;
+    font-size: 1rem;
+    margin: 0;
+    padding: 0;
+    font-family: 'JetBrains Mono', monospace;
+    white-space: pre-wrap; /* Ensures long lines wrap */
+    word-break: break-all; /* Breaks long words/strings if necessary */
+}
+
+#new-r-console .output-line.input {
+    color: var(--carp-yellow);
+    font-weight: bold;
+}
+
+#new-r-console .output-line.result {
+    color: var(--fuji-white);
+}
+
+#new-r-console .output-line.error {
+    color: var(--autumn-red);
+}
+
+#new-r-console .output-line.info {
+    color: var(--wave-blue);
+    font-style: italic;
+}
+
+#new-r-console .output-line.warning {
+    color: var(--carp-yellow); /* Using carp-yellow for warnings */
+}
+
+#new-r-console .r-console-input-area {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    border-top: 1px solid #44444c;
+}
+
+#new-r-console .r-prompt {
+    color: var(--wave-blue);
+    margin-right: 0.5rem;
+    font-weight: bold;
+}
+
+#new-r-console .r-console-input {
+    flex-grow: 1;
+    background: none;
+    border: none;
+    color: var(--fuji-white);
+    outline: none;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9rem;
+}
+
+/* New R Loading Indicator - uses existing .r-loading-indicator, .spinner */
+#new-r-loading-indicator {
+    position: absolute; /* Position inside the console */
+    bottom: 60px; /* Adjust as needed */
+    right: 20px;
+    background-color: rgba(31, 31, 40, 0.9);
+    border: 1px solid var(--wave-blue);
+    border-radius: 8px;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 1001; /* Above console output */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+#new-r-loading-indicator p {
+    color: var(--fuji-white);
+    margin: 0;
+}
+/* --- END: NEW R CONSOLE STYLES --- */
+
+/* Estilos para o Quiz */
+.quiz-container {
+    background-color: rgba(0,0,0,0.15);
+    padding: 2rem;
+    border-radius: 0.5rem;
+    border-left: 4px solid var(--carp-yellow);
+}
+
+.quiz-option {
+    display: block;
+    padding: 0.75rem 1rem;
+    background-color: rgba(255,255,255,0.05);
+    border-radius: 0.375rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+    border: 1px solid transparent;
+}
+
+.quiz-option:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+.quiz-option input[type="radio"] {
+    margin-right: 0.75rem;
+    accent-color: var(--ronin-green);
+}
+
+.quiz-option.selected {
+    background-color: rgba(126, 156, 216, 0.2); /* wave-blue com alpha */
+    border-color: var(--wave-blue);
+}
+
+.quiz-option.correct {
+    background-color: rgba(152, 187, 108, 0.2); /* ronin-green com alpha */
+    border-color: var(--ronin-green);
+}
+
+.quiz-option.incorrect {
+    background-color: rgba(195, 64, 67, 0.2); /* autumn-red com alpha */
+    border-color: var(--autumn-red);
+}
+
+#quizScoreDisplay strong {
+    color: var(--ronin-green);
+    font-size: 1.5em;
+}
+
+/* Quiz results will be styled when implemented */
+
+/* Estilos para "A Magia do Print" - slide 4 */
+@keyframes titleFadeIn {
+    0% { opacity: 0; transform: translateY(-20px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.05); opacity: 1; }
+    100% { transform: scale(1); opacity: 0.8; }
+}
+
+@keyframes sectorHover {
+    0% { transform: translateY(0) scale(1); }
+    100% { transform: translateY(-5px) scale(1.03); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.slide-title-animation {
+    opacity: 0;
+    animation: titleFadeIn 1.5s ease-out forwards;
+    animation-delay: 0.5s;
+}
+
+.magic-text {
+    background: linear-gradient(90deg, var(--wave-blue), var(--carp-yellow), var(--sakura-pink));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    position: relative;
+}
+
+.print-magic-container {
+    height: 520px;
+    margin: 20px 0;
+    perspective: 1000px;
+}
+
+.print-center-circle {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background-color: var(--sumi-ink);
+    border: 3px solid var(--carp-yellow);
+    box-shadow: 0 0 20px rgba(230, 180, 80, 0.4);
+    transition: all 0.3s ease-in-out;
+    animation: pulse 3s infinite ease-in-out;
+}
+
+.print-center-circle:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 30px rgba(230, 180, 80, 0.6);
+}
+
+.print-pulse {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 2px solid var(--carp-yellow);
+    opacity: 0;
+    animation: pulse-ring 2s infinite;
+}
+
+@keyframes pulse-ring {
+    0% {
+        transform: scale(0.8);
+        opacity: 0.8;
+    }
+    80%, 100% {
+        transform: scale(1.5);
+        opacity: 0;
+    }
+}
+
+.print-orbit {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    height: 100%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.print-sector {
+    position: absolute;
+    width: 330px; /* Increased from 180px */
+    height: auto; /* Height of the sector box, auto to fit content */
+    border-radius: 12px;
+    background-color: rgba(31, 31, 40, 0.7);
+    border: 2px solid transparent;
+    transition: all 0.3s ease-in-out;
+    opacity: 0;
+    animation: fadeIn 0.5s ease-in-out forwards;
+    cursor: pointer;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.print-sector:hover {
+    transform: translateY(-5px) scale(1.03);
+    z-index: 5;
+    /* Removed the animation to prevent disappearing on hover */
+}
+
+#sector-vector {
+    top: 5%;
+    left: 5%;
+    border-color: var(--ronin-green);
+    animation-delay: 1s;
+}
+
+#sector-dataframe {
+    top: 5%;
+    right: 5%;
+    border-color: var(--wave-blue);
+    animation-delay: 1.3s;
+}
+
+#sector-model {
+    bottom: 5%;
+    right: 5%;
+    border-color: var(--sakura-pink);
+    animation-delay: 1.6s;
+}
+
+#sector-list {
+    bottom: 5%;
+    left: 5%;
+    border-color: var(--carp-yellow);
+    animation-delay: 1.9s;
+}
+
+.sector-content {
+    padding: 12px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.sector-content pre {
+    margin-top: 8px;
+    overflow: hidden;
+    border-radius: 6px;
+}
+
+.sector-preview {
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 6px;
+    padding: 8px;
+    margin-top: 8px;
+    font-size: 0.9rem;
+}
+
+.print-output-area.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Responsive adjustments for mobile */
+@media (max-width: 768px) {
+    .print-magic-container {
+        height: 720px;
+    }
+    
+    .print-sector {
+        width: 200px;
+        height: 140px;
+    }
+    
+    #sector-vector {
+        top: 3%;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    
+    #sector-dataframe {
+        top: 32%;
+        right: 3%;
+    }
+    
+    #sector-model {
+        bottom: 3%;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    
+    #sector-list {
+        top: 32%;
+        left: 3%;
+    }
+}
+
+/* Loading indicator for WebR */
+.r-loading-indicator {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: rgba(31, 31, 40, 0.9);
+    border: 1px solid var(--wave-blue);
+    border-radius: 8px;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.r-loading-indicator p {
+    color: var(--fuji-white);
+    margin: 0;
+}
+
+.spinner {
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(126, 156, 216, 0.3);
+    border-radius: 50%;
+    border-top-color: var(--wave-blue);
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

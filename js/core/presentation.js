@@ -64,10 +64,8 @@ export async function initPresentation(slideCount) {
     try {
         let allSlidesHTML = '';
         console.log(`[SlideInit] Tentando carregar ${slideCount} slides.`);
-        // To use the tutorial slides (21-25) as the main 5 slides without renaming files,
-        // we'll fetch them directly by adjusting the index.
         for (let i = 1; i <= slideCount; i++) {
-            const slideNum = i + 20 ; // Load slides 21, 22, 23, 24, 25
+            const slideNum = i ;
             try {
                 const response = await fetch(`slides/slide_${slideNum}.html`);
                 if (!response.ok) {
