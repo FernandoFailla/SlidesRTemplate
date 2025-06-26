@@ -1,0 +1,15 @@
+
+This command will create a new directory named `my-awesome-presentation` in your current location. This directory will be populated with all the necessary files to run the presentation, including:
+
+- `index.html`: The main entry point.
+- `styles.css`: All the styling for the presentation.
+- `js/`: Directory containing all JavaScript logic.
+- `slides/`: Directory where you should place your HTML slide files.
+
+After generating the project, you can start a local web server in the `my-awesome-presentation` directory to view your presentation.
+
+## Customization
+
+- **Slides**: Add or edit HTML files in the `slides/` directory.
+- **Configuration**: Modify `js/config.js` to change the number of slides (`SLIDE_COUNT`).
+- **Styling**: Customize the look and feel by editing `styles.css`.
